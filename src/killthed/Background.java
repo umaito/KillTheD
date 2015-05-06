@@ -1,20 +1,20 @@
 package killthed;
 
 public class Background {
-	private int bgX, bgY, speedX;
+	private int bgX, bgY, speedY;
 	
 	public Background (int x, int y){
 		bgX = x;
 		bgY = y;
-		speedX = 0;
+		speedY = 0;
 	}
 	
 	public void update() {
-		bgX += speedX;
-
-		if (bgX <= -2160){
-			bgX += 4320;
-		}
+		bgY += speedY;
+		
+		 if (bgY >= 700){
+		      bgY -= 4020;
+		   }
 	}
 
 	public int getBgX() {
@@ -25,8 +25,8 @@ public class Background {
 		return bgY;
 	}
 
-	public int getSpeedX() {
-		return speedX;
+	public int getSpeedY() {
+		return speedY;
 	}
 
 	public void setBgX(int bgX) {
@@ -37,8 +37,8 @@ public class Background {
 		this.bgY = bgY;
 	}
 
-	public void setSpeedX(int speedX) {
-		this.speedX = speedX;
+	public void setSpeedY(int speedY) {
+		this.speedY = speedY;
 	}
 
 }

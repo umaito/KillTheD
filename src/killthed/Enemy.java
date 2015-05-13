@@ -1,6 +1,7 @@
 package killthed;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 
 
@@ -10,10 +11,12 @@ public class Enemy {
 	private Background bg = StartingClass.getBg1();
 	private TheD thed = StartingClass.getTheD();
 	public Rectangle r = new Rectangle(0, 0, 0, 0);
-	public int health = 5;
+	
 	private int movementSpeed;
 
-	
+	public ArrayList<BadProjectile> badprojectiles = new ArrayList<BadProjectile>();
+
+
 	public void update() {
 		follow();
 		centerY += speedY;
@@ -33,7 +36,7 @@ public class Enemy {
 	}
 	
 public void follow() {
-		
+		/*
 		if (centerY < -95 || centerY > 810){
 			movementSpeed = 0;
 		}
@@ -50,7 +53,7 @@ public void follow() {
 				movementSpeed = -1;
 			}
 		}
-
+	*/
 	}
 
 	public void die() {
@@ -100,5 +103,8 @@ public void follow() {
 
 	public void setBg(Background bg) {
 		this.bg = bg;
+	}
+	public ArrayList getBadProjectiles() {
+		return badprojectiles;
 	}
 }

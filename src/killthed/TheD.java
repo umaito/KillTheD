@@ -23,6 +23,8 @@ public class TheD {
 
 	private boolean readyToFire = true;
 
+	private static Boss1 boss1 = StartingClass.getBoss1();
+
 	private static Background bg1 = StartingClass.getBg1();
 	private static Background bg2 = StartingClass.getBg2();
 
@@ -36,57 +38,79 @@ public class TheD {
 	private ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 
 	public void update() {
-
+		
 		// Moves Character or Scrolls Background accordingly.
+		if (boss1 != null && (centerY- boss1.getCenterY() > 550 || boss1.getCenterX() == -100)) {
+			if (speedY == 0 || speedY < 0) {
+				bg1.setSpeedY(MOVESPEED);
+				bg2.setSpeedY(MOVESPEED);
 
-		if (speedY == 0 || speedY < 0) {
-			bg1.setSpeedY(MOVESPEED);
-			bg2.setSpeedY(MOVESPEED);
+			}
 
+			
+			if (speedY == 10) {
+				centerY += speedY;
+				bg1.setSpeedY(MOVESPEED);
+				bg2.setSpeedY(MOVESPEED);
+			}
+			if (centerY <= 810 && speedY > 0) {
+				centerY += speedY;
+				bg1.setSpeedY(MOVESPEED);
+				bg2.setSpeedY(MOVESPEED);
+			}
+
+			if (speedY < 0 && centerY < 200) {
+				bg1.setSpeedY(MOVESPEED);
+				bg2.setSpeedY(MOVESPEED);
+			}
+
+			// Updates Y Position
+			centerY += speedY;
+			if (centerY + speedY >= GROUND) {
+				centerY = GROUND;
+				bg1.setSpeedY(MOVESPEED);
+				bg2.setSpeedY(MOVESPEED);
+			}
+		} else
+		{
+			if (speedY == 0 || speedY < 0) {
+				bg1.setSpeedY(0);
+				bg2.setSpeedY(0);
+
+			}
+
+			
+			if (speedY == 10) {
+				centerY += speedY;
+				bg1.setSpeedY(0);
+				bg2.setSpeedY(0);
+			}
+			if (centerY <= 810 && speedY > 0) {
+				centerY += speedY;
+				bg1.setSpeedY(0);
+				bg2.setSpeedY(0);
+			}
+
+			if (speedY < 0 && centerY < 200) {
+				bg1.setSpeedY(0);
+				bg2.setSpeedY(0);
+			}
+
+			// Updates Y Position
+			centerY += speedY;
+			if (centerY + speedY >= GROUND) {
+				centerY = GROUND;
+				bg1.setSpeedY(0);
+				bg2.setSpeedY(0);
+			}
 		}
-
+		
 		if (speedX < 0) {
 			centerX += speedX;
 		}
 		if (centerX <= 415 && speedX > 0) {
 			centerX += speedX;
 		}
-		if (speedY == 10) {
-			centerY += speedY;
-			bg1.setSpeedY(MOVESPEED);
-			bg2.setSpeedY(MOVESPEED);
-		}
-		if (centerY <= 810 && speedY > 0) {
-			centerY += speedY;
-			bg1.setSpeedY(MOVESPEED);
-			bg2.setSpeedY(MOVESPEED);
-		}
-
-		if (speedY < 0 && centerY < 200) {
-			bg1.setSpeedY(MOVESPEED);
-			bg2.setSpeedY(MOVESPEED);
-		}
-
-		// Updates Y Position
-		centerY += speedY;
-		if (centerY + speedY >= GROUND) {
-			centerY = GROUND;
-			bg1.setSpeedY(MOVESPEED);
-			bg2.setSpeedY(MOVESPEED);
-		}
-
-		// Handles Jumping
-		if (jumped == true) {
-			speedY += 1;
-
-			if (centerY + speedY >= GROUND) {
-				centerY = GROUND;
-				speedY = 0;
-				jumped = false;
-			}
-
-		}
-
 		// Prevents going beyond X coordinate of 0
 		if (centerX + speedX <= 60) {
 			centerX = 61;
@@ -97,7 +121,7 @@ public class TheD {
 
 		rect.setRect(centerX - 25, centerY - 63, 50, 55);
 		rect2.setRect(centerX - 35, rect.getY() + 40, 68, 90);
-		
+
 		yellowRed.setRect(centerX - 110, centerY - 110, 180, 180);
 
 	}
@@ -115,15 +139,15 @@ public class TheD {
 	}
 
 	public void moveUp() {
-		
-			speedY = -MOVESPEED;
-		
+
+		speedY = -MOVESPEED;
+
 	}
 
 	public void moveDown() {
-		
-			speedY = MOVESPEED;
-		
+
+		speedY = MOVESPEED;
+
 	}
 
 	public void stopRight() {
@@ -182,7 +206,7 @@ public class TheD {
 
 	public void shoot() {
 		if (readyToFire) {
-			Projectile p = new Projectile(centerX , centerY - 25);
+			Projectile p = new Projectile(centerX, centerY - 25);
 			projectiles.add(p);
 		}
 	}
@@ -227,13 +251,7 @@ public class TheD {
 		this.speedY = speedY;
 	}
 
-	public boolean isDucked() {
-		return ducked;
-	}
-
-	public void setDucked(boolean ducked) {
-		this.ducked = ducked;
-	}
+	
 
 	public boolean isMovingRight() {
 		return movingRight;

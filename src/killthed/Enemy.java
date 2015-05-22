@@ -12,20 +12,19 @@ public class Enemy {
 	private TheD thed = StartingClass.getTheD();
 	public Rectangle r = new Rectangle(0, 0, 0, 0);
 	
-	private int movementSpeed;
 
 	public ArrayList<BadProjectile> badprojectiles = new ArrayList<BadProjectile>();
 
 
 	public void update() {
-		follow();
+		
 		centerY += speedY;
 		speedY = bg.getSpeedY();
-		r.setBounds(centerX - 25, centerY - 25, 50, 60);
-
+		r.setBounds(centerX - 25, centerY - 25, 60, 60);
 		if (r.intersects(TheD.yellowRed)) {
 			checkCollision();
 		}
+		
 	}
 
 	private void checkCollision() {
@@ -36,24 +35,7 @@ public class Enemy {
 	}
 	
 public void follow() {
-		/*
-		if (centerY < -95 || centerY > 810){
-			movementSpeed = 0;
-		}
-
-		else if (Math.abs(thed.getCenterY() - centerY) < 5) {
-			movementSpeed = 0;
-		}
-
-		else {
-
-			if (thed.getCenterY() >= centerY) {
-				movementSpeed = 1;
-			} else {
-				movementSpeed = -1;
-			}
-		}
-	*/
+		
 	}
 
 	public void die() {

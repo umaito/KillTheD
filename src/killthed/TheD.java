@@ -19,11 +19,12 @@ public class TheD {
 	private boolean movingRight = false;
 	private boolean movingDown = false;
 	private boolean movingUp = false;
-	private boolean ducked = false;
+
 
 	private boolean readyToFire = true;
 
 	private static Boss1 boss1 = StartingClass.getBoss1();
+	private static Boss2 boss2 = StartingClass.getBoss2();
 
 	private static Background bg1 = StartingClass.getBg1();
 	private static Background bg2 = StartingClass.getBg2();
@@ -40,7 +41,7 @@ public class TheD {
 	public void update() {
 		
 		// Moves Character or Scrolls Background accordingly.
-		if (boss1 != null && (centerY- boss1.getCenterY() > 550 || boss1.getCenterX() == -100)) {
+		if (boss1 != null && (centerY- boss1.getCenterY() > 550 || boss1.getCenterX() == -100) && (centerY- boss2.getCenterY() > 550 || boss2.getCenterX() == -100)) {
 			if (speedY == 0 || speedY < 0) {
 				bg1.setSpeedY(MOVESPEED);
 				bg2.setSpeedY(MOVESPEED);
@@ -127,15 +128,15 @@ public class TheD {
 	}
 
 	public void moveRight() {
-		if (ducked == false) {
+		
 			speedX = MOVESPEED;
-		}
+		
 	}
 
 	public void moveLeft() {
-		if (ducked == false) {
+		
 			speedX = -MOVESPEED;
-		}
+		
 	}
 
 	public void moveUp() {
@@ -197,16 +198,19 @@ public class TheD {
 	}
 
 	public void jump() {
-		if (jumped == false) {
-			speedY = JUMPSPEED;
-			jumped = true;
-		}
+		
 
 	}
 
 	public void shoot() {
-		if (readyToFire) {
+		if (boss2.getCenterX()> -100) {
 			Projectile p = new Projectile(centerX, centerY - 25);
+			projectiles.add(p);
+		}
+		else{
+			Projectile b = new Projectile(centerX-10, centerY - 25);
+			projectiles.add(b);
+			Projectile p = new Projectile(centerX+10, centerY - 25);
 			projectiles.add(p);
 		}
 	}

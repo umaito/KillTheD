@@ -25,7 +25,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	public static Heliboy hb, hb2, hb3, hb4;
 	public static Boss1 boss1;
-	private Image image, character, background, heliboy, imboss1;
+	public static Boss2 boss2;
+	private Image image, character, background, heliboy, imboss1, imboss2;
 	private Graphics second;
 	private URL base;
 	private static Background bg1, bg2;
@@ -52,6 +53,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		character = getImage(base, "data/character.png");
 		heliboy = getImage(base, "data/heliboy.png");
 		imboss1 = getImage(base, "data/imboss.png");
+		imboss2 = getImage(base, "data/boss2.png");
 	}
 
 	@Override
@@ -68,18 +70,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		bg1 = new Background(0, -1080);
 		bg2 = new Background(0, -3100);
 		boss1 = new Boss1(225, -8000);
+		boss2 = new Boss2(50, -16000);
 		thed = new TheD();
 		hb = new Heliboy((int) randomX1, -(int) randomY1);
 		hb2 = new Heliboy((int) randomX2, -(int) randomY2);
 		hb3 = new Heliboy((int) randomX3, -(int) randomY3);
 		hb4 = new Heliboy((int) randomX4, -(int) randomY4);
 
-		/*
-		 * for (int i = 0; i < 10; i++){ Heliboy h = new
-		 * Heliboy(RandomNumberGenerator.getRandIntBetween(0, 400),
-		 * RandomNumberGenerator.getRandInt(50), 100, 150); heliboyList.add(h);
-		 * h.update(); }
-		 */
 		Thread thread = new Thread(this);
 		thread.start();
 
@@ -99,6 +96,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void run() {
 		int t = 0;
 		int b = 0;
+		int n = 0;
+		int h = 0;
 
 		if (state == GameState.Running) {
 
@@ -116,19 +115,22 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 				hb3.update();
 				hb4.update();
 				boss1.update();
+				boss2.update();
 
-				if (thed.getCenterY() - boss1.getCenterY() > 1000
-						|| boss1.getCenterX() == -100) {
+				if (thed.getCenterY() - boss1.getCenterY() > 1400
+						|| boss1.getCenterX() == -100
+						&& (thed.getCenterY() - boss2.getCenterY() > 1100
+						|| boss2.getCenterX() == -100)) {
 					if (hb.getCenterX() == -100 || hb.getCenterY() > 800) {
 						hb.setCenterX((int) randomX1);
 						hb.setCenterY(thed.getCenterY() - 800);
-						hb.health = 4;
+						hb.health = 3;
 
 					}
 					if (hb2.getCenterX() == -100 || hb2.getCenterY() > 800) {
 						hb2.setCenterX((int) randomX2);
 						hb2.setCenterY(thed.getCenterY() - 800);
-						hb2.health = 4;
+						hb2.health = 3;
 					}
 					if (hb3.getCenterX() == -100 || hb3.getCenterY() > 800) {
 						hb3.setCenterX((int) randomX3);
@@ -138,27 +140,49 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 					if (hb4.getCenterX() == -100 || hb4.getCenterY() > 800) {
 						hb4.setCenterX((int) randomX4);
 						hb4.setCenterY(thed.getCenterY() - 800);
-						hb4.health = 4;
+						hb4.health = 3;
 					}
 				}
 				bg1.update();
 				bg2.update();
-
-				t = t + 1;
 				
-				System.out.println(b);
+				if (boss2.getCenterX() == 390) {
+					boss2.moveLeft();
+					boss2.setMovingLeft(true);
+				} else if (boss2.getCenterX() == 50) {
+					boss2.stopLeft();
+					boss2.moveRight();
+					boss2.setMovingRight(true);
+				}
+				
+				t = t + 1;
+
+				
 				if (t == 10) {
 					thed.shoot();
 					t = 0;
 				}
-				
+
 				if (boss1.getCenterY() > 0) {
 					b = b + 1;
-					if (b == 50) {
+					if (b == 60) {
 						boss1.shoot();
 						b = 0;
 					}
 				}
+
+				if (boss2.getCenterY() > 0) {
+					n = n + 1;
+					if (n == 60) {
+						hb4.shoot();
+						hb2.shoot();
+						boss2.shoot();
+						n = 0;
+					}
+				}
+				
+			
+				
 
 				repaint();
 				try {
@@ -186,6 +210,33 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 						p.update();
 					} else {
 						badprojectiles.remove(i);
+					}
+				}
+				ArrayList badprojectiles2 = boss2.getBadProjectiles();
+				for (int i = 0; i < badprojectiles2.size(); i++) {
+					BadProjectile p = (BadProjectile) badprojectiles2.get(i);
+					if (p.isVisible() == true) {
+						p.update();
+					} else {
+						badprojectiles2.remove(i);
+					}
+				}
+				ArrayList badprojectiles3 = hb2.getBadProjectiles();
+				for (int i = 0; i < badprojectiles3.size(); i++) {
+					BadProjectile p = (BadProjectile) badprojectiles3.get(i);
+					if (p.isVisible() == true) {
+						p.update();
+					} else {
+						badprojectiles3.remove(i);
+					}
+				}
+				ArrayList badprojectiles4 = hb4.getBadProjectiles();
+				for (int i = 0; i < badprojectiles4.size(); i++) {
+					BadProjectile p = (BadProjectile) badprojectiles4.get(i);
+					if (p.isVisible() == true) {
+						p.update();
+					} else {
+						badprojectiles4.remove(i);
 					}
 				}
 
@@ -228,7 +279,26 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 				g.setColor(Color.red);
 				g.fillRect(p.getX(), p.getY(), 5, 5);
 			}
-
+			ArrayList badprojectiles2 = boss2.getBadProjectiles();
+			for (int i = 0; i < badprojectiles2.size(); i++) {
+				BadProjectile p = (BadProjectile) badprojectiles2.get(i);
+				g.setColor(Color.red);
+				g.fillRect(p.getX(), p.getY(), 5, 5);
+			}
+			ArrayList badprojectiles3 = hb2.getBadProjectiles();
+			for (int i = 0; i < badprojectiles3.size(); i++) {
+				BadProjectile p = (BadProjectile) badprojectiles3.get(i);
+				g.setColor(Color.red);
+				g.fillRect(p.getX(), p.getY(), 5, 5);
+			}
+			ArrayList badprojectiles4 = hb4.getBadProjectiles();
+			for (int i = 0; i < badprojectiles4.size(); i++) {
+				BadProjectile p = (BadProjectile) badprojectiles4.get(i);
+				g.setColor(Color.red);
+				g.fillRect(p.getX(), p.getY(), 5, 5);
+			}
+			
+			
 			g.drawImage(heliboy, hb.getCenterX() - 48, hb.getCenterY() - 48,
 					this);
 			g.drawImage(heliboy, hb2.getCenterX() - 48, hb2.getCenterY() - 48,
@@ -239,6 +309,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 					this);
 			g.drawImage(imboss1, boss1.getCenterX() - 48,
 					boss1.getCenterY() - 48, this);
+			g.drawImage(imboss2, boss2.getCenterX() - 48,
+					boss2.getCenterY() - 48, this);
 
 			// g.drawRect((int)thed.rect.getX(), (int)thed.rect.getY(),
 			// (int)thed.rect.getWidth(), (int)thed.rect.getHeight());
@@ -348,5 +420,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	public static void setBoss1(Boss1 boss1) {
 		StartingClass.boss1 = boss1;
+	}
+
+	public static Boss2 getBoss2() {
+		return boss2;
+	}
+
+	public static void setBoss2(Boss2 boss2) {
+		StartingClass.boss2 = boss2;
 	}
 }

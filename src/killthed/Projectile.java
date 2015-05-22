@@ -36,7 +36,7 @@ public class Projectile {
 			}
 			if (StartingClass.hb.health == 0) {
 				StartingClass.hb.setCenterX(-100);
-				StartingClass.score += 4;
+				StartingClass.score += 3;
 				
 			}
 		}
@@ -48,7 +48,7 @@ public class Projectile {
 			}
 			if (StartingClass.hb2.health == 0) {
 				StartingClass.hb2.setCenterX(-100);
-				StartingClass.score += 4;
+				StartingClass.score += 3;
 			}
 
 		}
@@ -59,7 +59,7 @@ public class Projectile {
 			}
 			if (StartingClass.hb3.health == 0) {
 				StartingClass.hb3.setCenterX(-100);
-				StartingClass.score += 4;
+				StartingClass.score += 3;
 				
 			}
 		}
@@ -71,7 +71,7 @@ public class Projectile {
 			}
 			if (StartingClass.hb4.health == 0) {
 				StartingClass.hb4.setCenterX(-100);
-				StartingClass.score += 4;
+				StartingClass.score += 3;
 			}
 
 		}
@@ -82,6 +82,17 @@ public class Projectile {
 			}
 			if (StartingClass.boss1.health == 0) {
 				StartingClass.boss1.setCenterX(-100);
+				StartingClass.score += 10;
+			}
+
+		}
+		if (r.intersects(StartingClass.boss2.r)){
+			visible = false;
+			if (StartingClass.boss2.health > 0) {
+				StartingClass.boss2.health -= 1;
+			}
+			if (StartingClass.boss2.health == 0) {
+				StartingClass.boss2.setCenterX(-100);
 				StartingClass.score += 10;
 			}
 
